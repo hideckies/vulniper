@@ -112,6 +112,7 @@ export default function Room() {
                 const img = document.createElement('img');
                 img.src = "/vulniper.png";
                 img.alt = "Vulniper";
+                img.setAttribute("loading", "lazy");
                 img.classList.add("message-reply_icon");
                 div.appendChild(img);
 
