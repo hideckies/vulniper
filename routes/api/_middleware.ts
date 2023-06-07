@@ -14,6 +14,7 @@ export async function handler(
   ctx: MiddlewareHandlerContext<State>,
 ) {
     const remoteAddr = ctx.remoteAddr as Deno.NetAddr;
+    console.log(remoteAddr)
     if (!allowedIps.includes(remoteAddr.hostname)) {
         return;
     }
