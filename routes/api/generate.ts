@@ -1,7 +1,6 @@
 import { Handlers } from "$fresh/server.ts";
 import { HfInference } from "https://esm.sh/@huggingface/inference";
 
-// export const handler = async (req: Request, ctx: HandlerContext): Promise<Response> => {
 export const handler: Handlers<any, { data: string }> = {
     async GET(req, ctx) {
         const url = new URL(req.url);
