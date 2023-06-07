@@ -1,0 +1,75 @@
+:root {
+    --color-darkGray: #3c3a3e;
+    --color-darkGreen: #3a6a6a;
+    --color-green: #3a6a6a;
+}
+
+.message-me {
+    margin: 24px auto;
+    width: 100%;
+}
+
+.message-me_balloon {
+    position: relative;
+    margin: 0 auto;
+    width: 90%;
+    padding: 20px;
+    background: var(--color-darkGray);
+    border-radius: 20px;
+}
+.message-me_balloon::before {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    right: -12px;
+    top: 20px;
+    border-left: 15px solid var(--color-darkGray);
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    border-radius: 20px;
+}
+
+.message-me_balloon p {
+    font-size: 16px;
+}
+
+.message-reply {
+    margin: 24px auto;
+    width: 100%;
+    display: flex;
+    align-items: start;
+    gap: 0 12px;
+}
+
+.message-reply_icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid var(--color-green);
+}
+
+.message-reply_balloon {
+    position: relative;
+    padding: 20px;
+    background: var(--color-darkGreen);
+    border-radius: 20px;
+}
+.message-reply_balloon::before {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    left: -12px;
+    top: 20px;
+    border-right: 15px solid var(--color-darkGreen);
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    border-radius: 20px;
+}
+
+.message-reply_balloon p {
+    font-size: 16px;
+}
