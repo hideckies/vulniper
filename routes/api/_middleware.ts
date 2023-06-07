@@ -1,10 +1,5 @@
 import { MiddlewareHandlerContext } from "$fresh/server.ts";
 
-const allowedIps = [
-    '127.0.0.1',
-    '34.120.54.55',
-];
-
 interface State {
   data: string;
 }
@@ -13,13 +8,14 @@ export async function handler(
   req: Request,
   ctx: MiddlewareHandlerContext<State>,
 ) {
-    const remoteAddr = ctx.remoteAddr as Deno.NetAddr;
-    console.log(remoteAddr)
-    if (!allowedIps.includes(remoteAddr.hostname)) {
-        return;
+    const hfAccessToken = req.headers.get('x-hfaccesstoken');
+
+    ctx.state.data = ""
+
+    if (hfAccessToken && hfAccessToken !== "") {
+        ctx.state.data = hfAccessToken;
     }
 
-    ctx.state.data = "OK";
     const resp = await ctx.next();
     resp.headers.set("server", "fresh server");
     return resp;
