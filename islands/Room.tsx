@@ -7,10 +7,15 @@ const promptExamples = [
     "What tools do you recommend for Reconnaissance?",
     "How to use nmap? Give me command examples!",
     "How to use rustscan? Give me command examples!",
+    "How to discover subdomains?",
 
     // Protocols
     "What protocol uses port 22?",
     "What protocol uses port 80?",
+    "What protocol uses port 88?",
+    "What protocol uses port 139?",
+    "What protocol uses port 389?",
+    "What protocol uses port 3389?",
 
     // Pentest
     "How to pentest on Flask web apps?",
@@ -18,11 +23,34 @@ const promptExamples = [
     // Enumeration
     "How to enumerate SMB?",
 
-    // Payloads
-    "Generate 3 XSS examples contain `<iframe>`.",
-
+    
     // Port forwarding
     "How to port forwarding on Linux?",
+    
+    // Network
+    "How to sniff target network traffic?",
+    
+    // Containers
+    "How to escalate privileges with Docker?",
+    "How to escape Docker?",
+    
+    // Linux
+    "How to escalate privileges in Linux?",
+
+    // Web
+    "Generate 3 XSS examples contain `<iframe>`.",
+    "How to enumerate virtual hosts?",
+    "What is Broken Access Control?",
+
+    // Windows
+    "How to escalate privileges in Windows?",
+    "Tell me about LocalPotato.",
+
+    // Cryptography
+    "How to crack MD5 hash?",
+    "How to crack SHA256 hash?",
+    "How to crack SHA512 hash?",
+    "How to crack NTLM hash?",
 ]
 
 
@@ -324,13 +352,15 @@ export default function Room() {
                 id="modal-settings"
                 class={`
                     fixed top-1/2 left-1/2 z-[100] translate-x-[-50%] translate-y-[-50%]
-                    w-[90%] md:w-[50%] lg:w-[30%] bg-gray-800 rounded-lg p-4
+                    w-[90%] md:w-[50%] lg:w-[30%] bg-gray-800 rounded-lg p-8
                     ${modalSettings ? null : 'hidden'}
                 `}>
                     <h2 class="text-2xl font-bold">Settings</h2>
-                    <div class="my-6 w-full flex flex-col gap-y2">
-                        <h3 class="text-lg font-bold text-gray-400">Hugging Face Access Token</h3>
-                        <span class="text-base text-gray-500">To avoid rate limits, specify your own access token. Your token is not stored anywhere.</span>
+                    <div class="my-6 w-full flex flex-col gap-y-2">
+                        <h3 class="text-lg font-bold">Hugging Face Access Token</h3>
+                        <span class="text-base text-gray-300">
+                            To avoid rate limits, specify your own access token. Your token is not stored anywhere.
+                        </span>
                         <input
                             type="password" value={customHfAccessToken} onInput={handleInputSettings}
                             class="mt-4 w-full bg-gray-600 border-lg rounded-md p-2" />
@@ -342,7 +372,7 @@ export default function Room() {
                 id="modal-reset"
                 class={`
                     fixed top-1/2 left-1/2 z-[100] translate-x-[-50%] translate-y-[-50%]
-                    w-[90%] md:w-[50%] lg:w-[30%] bg-gray-800 rounded-lg p-4
+                    w-[90%] md:w-[50%] lg:w-[30%] bg-gray-800 rounded-lg p-8
                     ${modalReset ? null : 'hidden'}
                 `}>
                 <div class="w-full flex flex-col gap-y-6">

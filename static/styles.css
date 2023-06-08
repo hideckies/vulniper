@@ -4,6 +4,20 @@
     --color-green: #3a6a6a;
 }
 
+
+/* Scroll bar */
+::-webkit-scrollbar {
+    width: 5px;
+}
+::-webkit-scrollbar-thumb {
+    background: white;
+}
+::-webkit-scrollbar-corner {
+    background: white;
+}
+
+
+/* Outputs */
 .message-me {
     margin: 24px auto;
     width: 100%;
