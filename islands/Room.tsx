@@ -3,29 +3,41 @@ import ToggleDarkMode from "./ToggleDarkMode.tsx";
 import { Processing } from "../components/Processing.tsx";
 
 const promptExamples = [
+    // Knowledges
+    "What is RDP?",
+    "What is VRRP?",
+
     // Recon
     "What tools do you recommend for Reconnaissance?",
-    "How to use nmap? Give me command examples!",
-    "How to use rustscan? Give me command examples!",
+    "How to use nmap? Give me command examples.",
+    "How to use rustscan? Give me command examples.",
     "How to discover subdomains?",
 
     // Protocols
-    "What protocol uses port 22?",
-    "What protocol uses port 80?",
-    "What protocol uses port 88?",
-    "What protocol uses port 139?",
-    "What protocol uses port 389?",
-    "What protocol uses port 3389?",
+    "What protocol uses a port 22?",
+    "What protocol uses a port 67?",
+    "What protocol uses a port 80?",
+    "What protocol uses a port 88?",
+    "What protocol uses a port 139?",
+    "What protocol uses a port 389?",
+    "What protocol uses a port 3389?",
+    "What protocol uses a port 6443",
 
     // Pentest
     "How to pentest on Flask web apps?",
+    "How to pentest websites?",
 
     // Enumeration
+    "How to enumerate Kerberos?",
     "How to enumerate SMB?",
 
+    // Privilege Escalation
+    "How to escalate privileges on Linux?",
+    "How to escalate privileges on Windows?",
     
     // Port forwarding
     "How to port forwarding on Linux?",
+    "How to port forwarding on Windows?",
     
     // Network
     "How to sniff target network traffic?",
@@ -40,10 +52,12 @@ const promptExamples = [
     // Web
     "Generate 3 XSS examples contain `<iframe>`.",
     "How to enumerate virtual hosts?",
+    "How to enumerate users in WordPress?",
     "What is Broken Access Control?",
 
     // Windows
-    "How to escalate privileges in Windows?",
+    "How to Windows Forensics?",
+    "How to dump password hashes from registry keys?",
     "Tell me about LocalPotato.",
 
     // Cryptography
@@ -91,7 +105,12 @@ export default function Room() {
                 textAreaElem.style.height = `${defaultTextAreaElem}px`;
             }
         }
+    };
 
+    const handlePaste = (e: ClipboardEvent) => {
+        if (e.clipboardData) {
+            setPrompt(e.clipboardData.getData("text"));
+        }
     }
 
     const handleKeyDown = async (e: KeyboardEvent) => {
@@ -137,12 +156,23 @@ export default function Room() {
             outputElem.appendChild(div);
 
             try {
-                const result = await fetch(`/api/generate/?prompt=${encodeURIComponent(finalPrompt)}`, {
+                let result = await fetch(`/api/generate/?prompt=${encodeURIComponent(finalPrompt)}`, {
                     headers: {
                         'X-HfAccessToken': customHfAccessToken,
                     }
                 });
-                const outputText = await result.text();
+                let outputText = await result.text();
+
+                if (outputText.slice(-1) !== ".") {
+                    await sleep(2000);
+                    result = await fetch(`/api/generate/?prompt=${encodeURIComponent(outputText)}&continue=true`, {
+                        headers: {
+                            'X-HfAccessToken': customHfAccessToken,
+                        }
+                    });
+                    const outputText2 = await result.text();
+                    outputText = outputText + outputText2;
+                }
 
                 // Create the reply element.
                 const div = document.createElement('div');
@@ -177,12 +207,12 @@ export default function Room() {
 
             setProcessing(false);
         }
-    }
+    };
 
     const handleClickExample = () => {
         const example = promptExamples[Math.floor(Math.random() * promptExamples.length)];
         setPrompt(example);
-    }
+    };
 
     const handleClickTool = (e: Event) => {
         const target = e.target as HTMLButtonElement;
@@ -198,7 +228,7 @@ export default function Room() {
         } else if (toolType == "about") {
             setModalAbout(true);
         }
-    }
+    };
 
     const handleInputSettings = (e: Event) => {
         const target = e.target as HTMLInputElement;
@@ -207,7 +237,7 @@ export default function Room() {
         }
 
         setCustomHfAccessToken(target.value);
-    }
+    };
 
     const handleReset = () => {
         const outputElem = document.getElementById('output');
@@ -220,13 +250,17 @@ export default function Room() {
         }
 
         setModalReset(false);
-    }
+    };
 
     const handleClickModalBg = () => {
         setModalSettings(false);
         setModalReset(false);
         setModalAbout(false);
-    }
+    };
+
+    const sleep = (ms: number) => {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    };
 
     return (
         <>
@@ -253,6 +287,7 @@ export default function Room() {
                         <textarea
                             onInput={handleInput}
                             onKeyDown={handleKeyDown}
+                            onPaste={handlePaste}
                             value={prompt}
                             placeholder="Any questions for cybersecurity? Prompt here!"
                             rows={1}
@@ -406,7 +441,7 @@ export default function Room() {
                     <h2 class="text-2xl text-current font-bold">What is the Vulniper?</h2>
                     <div class="w-full flex flex-col gap-y-4">
                         <p class="text-base">
-                            Vulniper helps our cybersecurity works such as penetration testing, threat hunting ans so on.
+                            Vulniper helps our cybersecurity works such as penetration testing, threat hunting and so on.
                             It uses the open source Falcon LLM model in Hugging Face Hub.
                         </p>
                         <div class="mt-6 w-full flex flex-col items-center gap-y-6">
